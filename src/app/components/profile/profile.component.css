@@ -1,0 +1,10 @@
+#profile{
+    background-color: #666;
+    height: 100vh;
+    overflow: hidden;
+}
+.note {
+    min-height: 200px;
+    width: 250px;
+    background-color: #cfc;
+}

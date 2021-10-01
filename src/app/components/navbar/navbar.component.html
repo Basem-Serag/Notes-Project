@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="#"><i class="far fa-sticky-note"></i> Notes</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item" ngbDropdown>
+          <a
+            class="nav-link btn"
+            id="loginDropDown"
+            ngbDropdownToggle
+          >
+            SignIn
+          </a>
+          <div ngbDropdownMenu aria-labelledby="loginDropDown">
+            <button ngbDropdownItem>SignUp</button>
+            <button ngbDropdownItem>signIn</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
