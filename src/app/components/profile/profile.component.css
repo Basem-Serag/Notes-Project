@@ -8,3 +8,7 @@
     width: 250px;
     background-color: #cfc;
 }
+
+.dropdown-toggle::after{
+    display: none;
+}

@@ -9,7 +9,7 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SignOutComponent } from './components/sign-out/sign-out.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -21,12 +21,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SignOutComponent,
     NotFoundComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    NgbModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+  imports: [BrowserModule, AppRoutingModule, NgbModule],
+  providers: [NgbDropdown],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
