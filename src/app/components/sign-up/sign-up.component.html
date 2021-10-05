@@ -1,20 +1,93 @@
-<div class="form w-50 m-auto pt-5">
+<form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="w-50 m-auto pt-5">
   <div class="container">
     <div class="row mt-5">
       <div class="col-md-6">
         <input
+          [ngClass]="{
+            'is-invalid': f.fName.touched && f.fName.errors,
+            'is-valid': f.fName.touched && !f.fName.errors
+          }"
           type="text"
+          formControlName="fName"
           placeholder="Enter First Name"
           class="form-control"
         />
+        <div *ngIf="f.fName.errors" class="invalid-feedback">
+          <div *ngIf="f.fName.errors.required" class="px-2">
+            First name is required
+          </div>
+        </div>
       </div>
       <div class="col-md-6">
-        <input type="text" placeholder="Enter Last Name" class="form-control" />
+        <input
+          type="text"
+          [ngClass]="{
+            'is-invalid': f.lName.touched && f.lName.errors,
+            'is-valid': f.lName.touched && !f.lName.errors
+          }"
+          formControlName="lName"
+          placeholder="Enter Last Name"
+          class="form-control"
+        />
+        <div *ngIf="f.lName.errors" class="invalid-feedback">
+          <div *ngIf="f.lName.errors.required" class="px-2">
+            Last name is required
+          </div>
+        </div>
       </div>
     </div>
-    <input type="email" placeholder="Enter Email" class="form-control my-3" />
-    <input type="number" placeholder="Enter Your Age" class="form-control" />
-    <input type="password" placeholder="Enter Password" class="form-control my-3" />
-    <button class="btn btn-info w-100">Sign Up</button>
+    <input
+      type="email"
+      [ngClass]="{
+        'is-invalid': f.email.touched && f.email.errors,
+        'is-valid': f.email.touched && !f.email.errors
+      }"
+      formControlName="email"
+      placeholder="Enter Email"
+      class="form-control my-3"
+    />
+    <div *ngIf="f.email.errors" class="invalid-feedback">
+      <div *ngIf="f.email.errors.required" class="px-2 pb-3">Email is required</div>
+    </div>
+    <input
+      type="number"
+      [ngClass]="{
+        'is-invalid': f.age.touched && f.age.errors,
+        'is-valid': f.age.touched && !f.age.errors
+      }"
+      formControlName="age"
+      placeholder="Enter Your Age"
+      class="form-control"
+    />
+    <div *ngIf="f.age.errors" class="invalid-feedback">
+      <div *ngIf="f.age.errors.required" class="px-2">Age is required</div>
+    </div>
+
+    <input
+      [ngClass]="{
+        'is-invalid': f.password.touched && f.password.errors,
+        'is-valid': f.password.touched && !f.password.errors
+      }"
+      formControlName="password"
+      type="password"
+      placeholder="Enter Password"
+      class="form-control my-3"
+    />
+    <div *ngIf="f.password.errors" class="invalid-feedback">
+      <div *ngIf="f.password.errors.required" class="px-2 pb-3">
+        Password is required
+      </div>
+    </div>
+
+    <button
+      [disabled]="signUpForm.invalid"
+      [ngClass]="{
+        'btn-secondary': signUpForm.invalid,
+        'btn-info': !signUpForm.invalid
+      }"
+      class="btn w-100"
+    >
+      Sign Up
+    </button>
   </div>
-</div>
+</form>

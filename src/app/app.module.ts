@@ -10,6 +10,7 @@ import { SignOutComponent } from './components/sign-out/sign-out.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { NgbDropdown, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,13 @@ import { NgbDropdown, NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SignOutComponent,
     NotFoundComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, NgbModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    NgbModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   providers: [NgbDropdown],
   bootstrap: [AppComponent],
 })
