@@ -1,19 +1,26 @@
 <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="w-50 m-auto pt-5">
   <div class="container">
-    <div class="row mt-5">
+    <div *ngIf="isSuccess" class="alert alert-success text-center" role="alert">
+      <strong>{{ successMsg }}</strong>
+    </div>
+    <div *ngIf="isError" class="alert alert-danger text-center" role="alert">
+      <strong>{{ errMsg }}</strong>
+    </div>
+
+    <div class="row">
       <div class="col-md-6">
         <input
           [ngClass]="{
-            'is-invalid': f.fName.touched && f.fName.errors,
-            'is-valid': f.fName.touched && !f.fName.errors
+            'is-invalid': f.first_name.touched && f.first_name.errors,
+            'is-valid': f.first_name.touched && !f.first_name.errors
           }"
           type="text"
-          formControlName="fName"
+          formControlName="first_name"
           placeholder="Enter First Name"
           class="form-control"
         />
-        <div *ngIf="f.fName.errors" class="invalid-feedback">
-          <div *ngIf="f.fName.errors.required" class="px-2">
+        <div *ngIf="f.first_name.errors" class="invalid-feedback">
+          <div *ngIf="f.first_name.errors.required" class="px-2">
             First name is required
           </div>
         </div>
@@ -22,15 +29,15 @@
         <input
           type="text"
           [ngClass]="{
-            'is-invalid': f.lName.touched && f.lName.errors,
-            'is-valid': f.lName.touched && !f.lName.errors
+            'is-invalid': f.last_name.touched && f.last_name.errors,
+            'is-valid': f.last_name.touched && !f.last_name.errors
           }"
-          formControlName="lName"
+          formControlName="last_name"
           placeholder="Enter Last Name"
           class="form-control"
         />
-        <div *ngIf="f.lName.errors" class="invalid-feedback">
-          <div *ngIf="f.lName.errors.required" class="px-2">
+        <div *ngIf="f.last_name.errors" class="invalid-feedback">
+          <div *ngIf="f.last_name.errors.required" class="px-2">
             Last name is required
           </div>
         </div>
@@ -47,7 +54,9 @@
       class="form-control my-3"
     />
     <div *ngIf="f.email.errors" class="invalid-feedback">
-      <div *ngIf="f.email.errors.required" class="px-2 pb-3">Email is required</div>
+      <div *ngIf="f.email.errors.required" class="px-2 pb-3">
+        Email is required
+      </div>
     </div>
     <input
       type="number"
@@ -87,6 +96,10 @@
       }"
       class="btn w-100"
     >
+      <span
+        class="spinner-border spinner-border-sm mr-1"
+        *ngIf="isLoading"
+      ></span>
       Sign Up
     </button>
   </div>

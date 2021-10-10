@@ -1,5 +1,12 @@
 <form [formGroup]="signInForm" (ngSubmit)="onSubmit()" class="w-50 m-auto pt-5">
   <div class="container mt-5">
+    <div *ngIf="isSuccess" class="alert alert-success text-center" role="alert">
+      <strong>{{ successMsg }}</strong>
+    </div>
+    <div *ngIf="isError" class="alert alert-danger text-center" role="alert">
+      <strong>{{ errMsg }}</strong>
+    </div>
+
     <input
       [ngClass]="{
         'is-invalid': f.email.touched && f.email.errors,
@@ -30,13 +37,18 @@
     </div>
 
     <button
-    [disabled]="signInForm.invalid"
+      [disabled]="signInForm.invalid"
       [ngClass]="{
         'btn-secondary': signInForm.invalid,
         'btn-info': !signInForm.invalid
       }"
       class="btn w-100"
     >
+      <span
+        class="spinner-border spinner-border-sm mr-1"
+        *ngIf="isLoading"
+      ></span>
+
       Sign In
     </button>
   </div>
