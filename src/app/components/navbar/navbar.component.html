@@ -22,11 +22,13 @@
             role="button"
             ngbDropdownToggle
           >
-            SignIn
+            <span *ngIf="!this._AuthService.isClient()">Signin</span>
+            <span *ngIf="this._AuthService.isClient()">Signout</span>
           </a>
           <div ngbDropdownMenu aria-labelledby="loginDropDown" class="dropdown-menu">
-            <button ngbDropdownItem routerLink='/signup'>SignUp</button>
-            <button ngbDropdownItem routerLink='/signin'>signIn</button>
+            <button *ngIf="!this._AuthService.isClient()" ngbDropdownItem routerLink='/signup'>Signup</button>
+            <button *ngIf="!this._AuthService.isClient()" ngbDropdownItem routerLink='/signin'>Signin</button>
+            <button *ngIf="this._AuthService.isClient()" (click)="signOut()" ngbDropdownItem routerLink='/signin'>Signout</button>
           </div>
         </li>
       </ul>

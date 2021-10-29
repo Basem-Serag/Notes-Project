@@ -5,19 +5,19 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProfileComponent } from './components/profile/profile.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  {path: '' , redirectTo:'signin', pathMatch: 'full'},
-  {path: 'signin' , component: SignInComponent},
-  {path: 'signup' , component: SignUpComponent},
-  {path: 'signout' , component: SignOutComponent},
-  {path: 'profile' , component: ProfileComponent},
-  {path: '**' , component: NotFoundComponent},
-
+  { path: '', redirectTo: 'signin', pathMatch: 'full' },
+  { path: 'signin', component: SignInComponent },
+  { path: 'signup', component: SignUpComponent },
+  { path: 'signout', component: SignOutComponent },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

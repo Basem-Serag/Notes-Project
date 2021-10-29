@@ -6,13 +6,75 @@
           Add Note
         </button>
       </div>
+      <!-- Add Modal -->
+      <ng-template #addNote let-modal>
+        <form [formGroup]="addForm" (ngSubmit)="onAdd()">
+          <div class="modal-header badge-dark">
+            <h4 class="modal-title" id="modal-basic-title">Add Note</h4>
+            <button
+              type="button"
+              class="close"
+              aria-label="Close"
+              (click)="modal.dismiss('Cross click')"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row">
+                <div class="col-12">
+                  <input
+                    type="text"
+                    placeholder="Title"
+                    class="form-control my-3"
+                    formControlName="title"
+                  />
+                </div>
+                <div class="col-12">
+                  <textarea
+                    placeholder="Add Description"
+                    cols="30"
+                    rows="10"
+                    class="form-control"
+                    formControlName="description"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-info">Add</button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="modal.close()"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </ng-template>
+      <!--/ Add Modal -->
     </div>
+
+    <div class="container">
+      <div class="row" *ngIf="isLoading">
+        <div class="col-12">
+          <i
+            class="fa fa-spinner fa-spin fa-2x text-center d-block text-white"
+            aria-hidden="true"
+          ></i>
+        </div>
+      </div>
+    </div>
+
     <div class="col-md-12">
       <div class="container-fluid">
-        <div class="row d-flex justify-content-center align-items-center mt-5">
-          <div class="col-md-3">
-            <div class="note text-center p-3">
-              <div class="icon d-flex justify-content-end">
+        <div class="row mt-5">
+          <div class="col-md-3" *ngFor="let note of userNotes">
+            <div class="note rounded text-center p-3 my-3">
+              <div class="icons d-flex justify-content-end">
                 <div ngbDropdown class="d-inline-block">
                   <i
                     class="
@@ -28,7 +90,7 @@
                   <div ngbDropdownMenu aria-labelledby="noteMenu">
                     <a
                       ngbDropdownItem
-                      (click)="open(editNote)"
+                      (click)="open(editNote); onEdit(note._id)"
                       class="
                         d-flex
                         justify-content-between
@@ -38,6 +100,64 @@
                       "
                       >Edit<i class="fas fa-edit"></i
                     ></a>
+                    <!-- Edit Modal -->
+                    <ng-template #editNote let-modal>
+                      <form
+                        [formGroup]="editForm"
+                        (ngSubmit)="onSave(note._id)"
+                      >
+                        <div class="modal-header badge-secondary">
+                          <h4 class="modal-title" id="modal-basic-title">
+                            Edit Note
+                          </h4>
+                          <button
+                            type="button"
+                            class="close"
+                            aria-label="Close"
+                            (click)="modal.dismiss('Cross click')"
+                          >
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="container">
+                            <div class="row my-3">
+                              <div class="col-12">
+                                <input
+                                  type="text"
+                                  placeholder="Title"
+                                  class="form-control"
+                                  formControlName="title"
+                                />
+                              </div>
+                              <div class="col-12">
+                                <textarea
+                                  placeholder="Add Description"
+                                  cols="30"
+                                  rows="10"
+                                  class="form-control mt-3"
+                                  formControlName="description"
+                                ></textarea>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="submit" class="btn btn-info">
+                            Save
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-danger"
+                            (click)="modal.close()"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </form>
+                    </ng-template>
+                    <!--/ Edite Modal -->
+
                     <a
                       ngbDropdownItem
                       (click)="open(deleteNote)"
@@ -50,14 +170,57 @@
                       "
                       >Delete<i class="fas fa-trash p-1"></i
                     ></a>
+                    <!-- Delete Modal -->
+                    <ng-template #deleteNote let-modal>
+                      <div class="modal-header badge-warning">
+                        <h5
+                          class="modal-title text-dark"
+                          id="modal-basic-title"
+                        >
+                          Are you sure?
+                        </h5>
+                        <button
+                          type="button"
+                          class="close"
+                          aria-label="Close"
+                          (click)="modal.dismiss('Cross click')"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="container">
+                          <div class="row text-center">
+                            <p class="p-2 lead">
+                              Do you really want to delete? <br />
+                              process cannot be undone
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-danger"
+                          (click)="onDelete(note._id)"
+                        >
+                          Delete
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-info"
+                          (click)="modal.close()"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </ng-template>
+                    <!--/ Delete Modal -->
                   </div>
                 </div>
               </div>
-              <h2>My Note</h2>
-              <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Facere, dignissimos!
-              </p>
+              <h2>{{ note.title }}</h2>
+              <p>{{ note.desc }}</p>
             </div>
           </div>
         </div>
@@ -66,126 +229,3 @@
   </div>
   <!-- Add Note Row -->
 </section>
-
-<!-----------------  Modals  --------------------->
-
-<!-- Add Modal -->
-<ng-template #addNote let-modal>
-  <div class="modal-header badge-dark">
-    <h4 class="modal-title" id="modal-basic-title">Add Note</h4>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <form class="my-3">
-            <input type="text" placeholder="Title" class="form-control" />
-          </form>
-        </div>
-        <div class="col-12">
-          <form>
-            <textarea
-              placeholder="Add Description"
-              cols="30"
-              rows="10"
-              class="form-control"
-            ></textarea>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-info">Add</button>
-    <button type="button" class="btn btn-danger" (click)="modal.close()">
-      Cancel
-    </button>
-  </div>
-</ng-template>
-<hr />
-<pre>{{ closeResult }}</pre>
-<!--/ Add Modal -->
-
-<!-- Edit Modal -->
-<ng-template #editNote let-modal>
-  <div class="modal-header badge-secondary">
-    <h4 class="modal-title" id="modal-basic-title">Edit Note</h4>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <form class="my-3">
-            <input type="text" placeholder="Title" class="form-control" />
-          </form>
-        </div>
-        <div class="col-12">
-          <form>
-            <textarea
-              placeholder="Add Description"
-              cols="30"
-              rows="10"
-              class="form-control"
-            ></textarea>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-info">Save</button>
-    <button type="button" class="btn btn-danger" (click)="modal.close()">
-      Cancel
-    </button>
-  </div>
-</ng-template>
-<hr />
-<pre>{{ closeResult }}</pre>
-<!--/ Edite Modal -->
-
-<!-- Delete Modal -->
-<ng-template #deleteNote let-modal>
-  <div class="modal-header badge-warning">
-    <h5 class="modal-title text-dark" id="modal-basic-title">Are you sure?</h5>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="container">
-      <div class="row  text-center">
-        <p class="p-2 lead">Do you really want to delete? <br> process cannot be undone</p>
-      </div>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-danger">Delete</button>
-    <button type="button" class="btn btn-info" (click)="modal.close()">
-      Cancel
-    </button>
-  </div>
-</ng-template>
-<hr />
-<pre>{{ closeResult }}</pre>
-<!--/ Delete Modal -->

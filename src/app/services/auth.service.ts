@@ -16,4 +16,7 @@ export class AuthService {
   signOut(req: object): Observable<any> {
     return this._HttpClient.post(this.baseUrl + 'signOut', req);
   }
+  isClient() {
+    return localStorage.getItem('TOKEN');
+  } 
 }
