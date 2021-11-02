@@ -1,58 +1,93 @@
-<form [formGroup]="signInForm" (ngSubmit)="onSubmit()" class="w-50 m-auto pt-5">
-  <div class="container mt-5">
-    <div *ngIf="isSuccess" class="alert alert-success text-center" role="alert">
-      <strong>{{ successMsg }}</strong>
-    </div>
-    <div *ngIf="isError" class="alert alert-danger text-center" role="alert">
-      <strong>{{ errMsg }}</strong>
-    </div>
+<div class="wrap shadow">
+  <form
+    [formGroup]="signInForm"
+    (ngSubmit)="onSubmit()"
+    class="p-5 badge-dark w-100 m-auto"
+  >
+    <h1 class="text-white text-center">SignIn</h1>
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div
+            *ngIf="isSuccess"
+            class="alert alert-success text-center"
+            role="alert"
+          >
+            <strong>{{ successMsg }}</strong>
+          </div>
+          <div
+            *ngIf="isError"
+            class="alert alert-danger text-center"
+            role="alert"
+          >
+            <strong>{{ errMsg }}</strong>
+          </div>
+        </div>
 
-    <input
-      [ngClass]="{
-        'is-invalid': f.email.touched && f.email.errors,
-        'is-valid': f.email.touched && !f.email.errors
-      }"
-      type="email"
-      placeholder="Enter Email"
-      class="form-control my-3"
-      formControlName="email"
-    />
-    <div *ngIf="f.email.errors" class="invalid-feedback">
-      <div *ngIf="f.email.errors.required" class="px-2">Email is required</div>
-    </div>
-    <input
-      [ngClass]="{
-        'is-invalid': f.password.touched && f.password.errors,
-        'is-valid': f.password.touched && !f.password.errors
-      }"
-      formControlName="password"
-      type="password"
-      placeholder="Enter Password"
-      class="form-control my-3"
-    />
-    <div
-      *ngIf="f.password.errors && f.password.touched"
-      class="invalid-feedback"
-    >
-      <div *ngIf="f.password.errors.required" class="px-2 pb-3">
-        Password is required
+        <div class="col-12">
+          <input
+            [ngClass]="{
+              'is-invalid': f.email.touched && f.email.errors,
+              'is-valid': f.email.touched && !f.email.errors
+            }"
+            type="email"
+            placeholder="Enter Email"
+            class="form-control"
+            formControlName="email"
+          />
+
+          <div *ngIf="f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.required" class="px-2">
+              Email is required
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <input
+            [ngClass]="{
+              'is-invalid': f.password.touched && f.password.errors,
+              'is-valid': f.password.touched && !f.password.errors
+            }"
+            formControlName="password"
+            type="password"
+            placeholder="Enter Password"
+            class="form-control my-3"
+          />
+          <div
+            *ngIf="f.password.errors && f.password.touched"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.password.errors.required" class="px-2 pb-3">
+              Password is required
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <button
+            [disabled]="signInForm.invalid"
+            [ngClass]="{
+              'btn-secondary': signInForm.invalid,
+              'btn-info': !signInForm.invalid
+            }"
+            class="btn w-100"
+          >
+            <span
+              class="spinner-border spinner-border-sm mr-1"
+              *ngIf="isLoading"
+            ></span>
+
+            Sign In
+          </button>
+        </div>
+        <div class="col-12">
+          <span class="text-white text-center d-block mt-3"
+            >Don't have an account?
+            <a routerLink="/signup" class="btn text-info p-0">Create One</a>
+          </span>
+        </div>
       </div>
     </div>
-
-    <button
-      [disabled]="signInForm.invalid"
-      [ngClass]="{
-        'btn-secondary': signInForm.invalid,
-        'btn-info': !signInForm.invalid
-      }"
-      class="btn w-100"
-    >
-      <span
-        class="spinner-border spinner-border-sm mr-1"
-        *ngIf="isLoading"
-      ></span>
-
-      Sign In
-    </button>
-  </div>
-</form>
+  </form>
+</div>

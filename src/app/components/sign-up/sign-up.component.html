@@ -1,106 +1,137 @@
-<form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="w-50 m-auto pt-5">
-  <div class="container">
-    <div *ngIf="isSuccess" class="alert alert-success text-center" role="alert">
-      <strong>{{ successMsg }}</strong>
-    </div>
-    <div *ngIf="isError" class="alert alert-danger text-center" role="alert">
-      <strong>{{ errMsg }}</strong>
-    </div>
+<div class="wrap shadow">
+  <form
+    [formGroup]="signUpForm"
+    (ngSubmit)="onSubmit()"
+    class="w-100 badge-dark m-auto p-5"
+  >
+    <h1 class="text-white text-center py-3">SignUp</h1>
 
-    <div class="row">
-      <div class="col-md-6">
-        <input
-          [ngClass]="{
-            'is-invalid': f.first_name.touched && f.first_name.errors,
-            'is-valid': f.first_name.touched && !f.first_name.errors
-          }"
-          type="text"
-          formControlName="first_name"
-          placeholder="Enter First Name"
-          class="form-control"
-        />
-        <div *ngIf="f.first_name.errors" class="invalid-feedback">
-          <div *ngIf="f.first_name.errors.required" class="px-2">
-            First name is required
+    <div class="container">
+      <div
+        *ngIf="isSuccess"
+        class="alert alert-success text-center"
+        role="alert"
+      >
+        <strong>{{ successMsg }}</strong>
+      </div>
+      <div *ngIf="isError" class="alert alert-danger text-center" role="alert">
+        <strong>{{ errMsg }}</strong>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <input
+            [ngClass]="{
+              'is-invalid': f.first_name.touched && f.first_name.errors,
+              'is-valid': f.first_name.touched && !f.first_name.errors
+            }"
+            type="text"
+            formControlName="first_name"
+            placeholder="Enter First Name"
+            class="form-control"
+          />
+          <div *ngIf="f.first_name.errors" class="invalid-feedback">
+            <div *ngIf="f.first_name.errors.required" class="px-2">
+              First name is required
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-6">
-        <input
-          type="text"
-          [ngClass]="{
-            'is-invalid': f.last_name.touched && f.last_name.errors,
-            'is-valid': f.last_name.touched && !f.last_name.errors
-          }"
-          formControlName="last_name"
-          placeholder="Enter Last Name"
-          class="form-control"
-        />
-        <div *ngIf="f.last_name.errors" class="invalid-feedback">
-          <div *ngIf="f.last_name.errors.required" class="px-2">
-            Last name is required
+
+        <div class="col-md-6">
+          <input
+            type="text"
+            [ngClass]="{
+              'is-invalid': f.last_name.touched && f.last_name.errors,
+              'is-valid': f.last_name.touched && !f.last_name.errors
+            }"
+            formControlName="last_name"
+            placeholder="Enter Last Name"
+            class="form-control"
+          />
+          <div *ngIf="f.last_name.errors" class="invalid-feedback">
+            <div *ngIf="f.last_name.errors.required" class="px-2">
+              Last name is required
+            </div>
           </div>
+        </div>
+
+        <div class="col-12">
+          <input
+            type="email"
+            [ngClass]="{
+              'is-invalid': f.email.touched && f.email.errors,
+              'is-valid': f.email.touched && !f.email.errors
+            }"
+            formControlName="email"
+            placeholder="Enter Email"
+            class="form-control my-3"
+          />
+          <div *ngIf="f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.required" class="px-2 pb-3">
+              Email is required
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <input
+            type="number"
+            [ngClass]="{
+              'is-invalid': f.age.touched && f.age.errors,
+              'is-valid': f.age.touched && !f.age.errors
+            }"
+            formControlName="age"
+            placeholder="Enter Your Age"
+            class="form-control"
+          />
+          <div *ngIf="f.age.errors" class="invalid-feedback">
+            <div *ngIf="f.age.errors.required" class="px-2">
+              Age is required
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <input
+            [ngClass]="{
+              'is-invalid': f.password.touched && f.password.errors,
+              'is-valid': f.password.touched && !f.password.errors
+            }"
+            formControlName="password"
+            type="password"
+            placeholder="Enter Password"
+            class="form-control my-3"
+          />
+          <div class="jumbotron jumbotron-fluid p-0 px-4 py-3 shadow bg-dark rouned  border-top border-secondary">
+              <h3 class="display-1">Password must be :</h3>
+              <p>- at least 8 characters</p>
+              <p>- contain min 2 letter with 1 UpperCase </p>
+              <p>- contain min 1 number </p>
+          </div>
+          <div *ngIf="f.password.errors" class="invalid-feedback">
+            <div *ngIf="f.password.errors.required" class="px-2 pb-3">
+              Password is required
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <button
+            [disabled]="signUpForm.invalid"
+            [ngClass]="{
+              'btn-secondary': signUpForm.invalid,
+              'btn-info': !signUpForm.invalid
+            }"
+            class="btn w-100"
+          >
+            <span
+              class="spinner-border spinner-border-sm mr-1"
+              *ngIf="isLoading"
+            ></span>
+            Sign Up
+          </button>
         </div>
       </div>
     </div>
-    <input
-      type="email"
-      [ngClass]="{
-        'is-invalid': f.email.touched && f.email.errors,
-        'is-valid': f.email.touched && !f.email.errors
-      }"
-      formControlName="email"
-      placeholder="Enter Email"
-      class="form-control my-3"
-    />
-    <div *ngIf="f.email.errors" class="invalid-feedback">
-      <div *ngIf="f.email.errors.required" class="px-2 pb-3">
-        Email is required
-      </div>
-    </div>
-    <input
-      type="number"
-      [ngClass]="{
-        'is-invalid': f.age.touched && f.age.errors,
-        'is-valid': f.age.touched && !f.age.errors
-      }"
-      formControlName="age"
-      placeholder="Enter Your Age"
-      class="form-control"
-    />
-    <div *ngIf="f.age.errors" class="invalid-feedback">
-      <div *ngIf="f.age.errors.required" class="px-2">Age is required</div>
-    </div>
-
-    <input
-      [ngClass]="{
-        'is-invalid': f.password.touched && f.password.errors,
-        'is-valid': f.password.touched && !f.password.errors
-      }"
-      formControlName="password"
-      type="password"
-      placeholder="Enter Password"
-      class="form-control my-3"
-    />
-    <div *ngIf="f.password.errors" class="invalid-feedback">
-      <div *ngIf="f.password.errors.required" class="px-2 pb-3">
-        Password is required
-      </div>
-    </div>
-
-    <button
-      [disabled]="signUpForm.invalid"
-      [ngClass]="{
-        'btn-secondary': signUpForm.invalid,
-        'btn-info': !signUpForm.invalid
-      }"
-      class="btn w-100"
-    >
-      <span
-        class="spinner-border spinner-border-sm mr-1"
-        *ngIf="isLoading"
-      ></span>
-      Sign Up
-    </button>
-  </div>
-</form>
+  </form>
+</div>
