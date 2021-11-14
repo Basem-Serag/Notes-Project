@@ -4,7 +4,6 @@ import { NotesService } from './../../services/notes.service';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import jwt_decode from 'jwt-decode';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'app-profile',
@@ -14,6 +13,7 @@ import * as _ from 'lodash';
 export class ProfileComponent implements OnInit {
   userInfo: any = {};
   TOKEN: string;
+  empty: boolean = false;
   userNotes: any[] = [];
   noteID: any;
   isLoading: boolean = true;
@@ -60,10 +60,17 @@ export class ProfileComponent implements OnInit {
     this._NotesService.getUserNotes(req).subscribe((res) => {
       if (res.message == 'success') {
         this.userNotes = res.Notes;
+        this.empty = false;
         this.isLoading = false;
-      } else {
+      } else if(res.message == 'no notes found') {
+        this.isLoading = false;
+        this.empty = true;
+        this.userNotes = res.Notes;
+
+      }else{
         localStorage.clear();
         this._Router.navigate(['/signin']);
+
       }
     });
   }
@@ -78,8 +85,7 @@ export class ProfileComponent implements OnInit {
     };
     this._NotesService.addNote(req).subscribe((res) => {
       if (res.message == 'success') {
-        this.isLoading = false;
-        this.userNotes.push(res);
+        this.isLoading = false;        
         this.modalService.dismissAll();
         this.addForm.reset();
         this.getUserNotes();
@@ -105,7 +111,6 @@ export class ProfileComponent implements OnInit {
       if (this.userNotes[index]._id == id) {
         this.editForm.controls.title.setValue(this.userNotes[index].title);
         this.editForm.controls.description.setValue(this.userNotes[index].desc);
-        console.log(this.userNotes[index]);
       }
     }
   }
@@ -122,7 +127,6 @@ export class ProfileComponent implements OnInit {
         this.modalService.dismissAll();
         this.addForm.reset();
         this.getUserNotes();
-        console.log(res);
       }
     });
   }

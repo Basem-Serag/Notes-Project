@@ -37,14 +37,11 @@ export class SignUpComponent implements OnInit {
           this.isLoading = false;
           this._Router.navigate(['/signin']);
           this.successMsg = data.message;
-
-          console.log(data);
         } else {
           this.isLoading = false;
           this.isSuccess = false;
           this.isError = true;
           this.errMsg = data.errors.email.message;
-          console.log(data);
         }
       });
     }
